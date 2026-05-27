@@ -1179,73 +1179,6 @@ section {
     }
 }
 
-    .new-release-slider {
-  padding: 80px 20px;
-  background: #000;
-  text-align: center;
-}
-
-.new-release-slider .section-title {
-  color: #f5d27a;
-}
-
-.new-slider-window {
-  max-width: 900px;
-  margin: 40px auto 0;
-  overflow: hidden;
-}
-
-.new-slider-track {
-  display: flex;
-  transition: transform 0.5s ease;
-}
-
-.new-slider-track .composition-slide {
-  min-width: 100%;
-  padding: 10px;
-}
-
-.new-slider-controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 25px;
-}
-
-.new-slide-btn {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  border: 1px solid #f5d27a;
-  background: #111;
-  color: #f5d27a;
-  font-size: 22px;
-  cursor: pointer;
-}
-
-.new-slide-btn:hover {
-  background: #f5d27a;
-  color: #000;
-}
-
-.new-slider-dots {
-  display: flex;
-  gap: 8px;
-}
-
-.new-slider-dots button {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  border: 0;
-  background: #555;
-  cursor: pointer;
-}
-
-.new-slider-dots button.active {
-  background: #f5d27a;
-}
 </style>
 </head>
 
@@ -1506,39 +1439,36 @@ section {
         </article>
     </div>
 </section>
-
 <!-- NEW RELEASE -->
-<section class="new-release-slider fade" id="new-release">
+<section class="new-release-section fade" id="new-release">
   <h2 class="section-title">New Release</h2>
 
-  <div class="new-slider-window">
-    <div class="new-slider-track">
-      <div class="composition-slide">
-        <div class="video-card">
-          <iframe
-            src="https://www.youtube-nocookie.com/embed/mOX72zq_bJY"
-            title="New Release 1"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen></iframe>
-        </div>
-      </div>
+  <p class="new-release-subtitle">
+    Explore our latest videos and learn more about us.
+  </p>
 
-      <div class="composition-slide">
-        <div class="video-card">
-          <iframe
-            src="https://www.youtube-nocookie.com/embed/k4W-Ao9_rPo"
-            title="New Release 2"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen></iframe>
-        </div>
+  <div class="new-release-grid">
+    <div class="composition-slide">
+      <div class="video-card">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/mOX72zq_bJY"
+          title="New Release Video 1"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
       </div>
     </div>
-  </div>
 
-  <div class="new-slider-controls">
-    <button class="new-slide-btn new-slider-prev" type="button">&lt;</button>
-    <div class="new-slider-dots"></div>
-    <button class="new-slide-btn new-slider-next" type="button">&gt;</button>
+    <div class="composition-slide">
+      <div class="video-card">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/k4W-Ao9_rPo"
+          title="New Release Video 2"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
   </div>
 </section>
 
