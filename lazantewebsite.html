@@ -1,0 +1,1952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lazante | Orchestral Artist</title>
+<link rel="icon" type="image/png" href="images/lazante-logo.png">
+<link rel="apple-touch-icon" href="images/lazante-logo.png">
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #000;
+    color: #d4d4d4;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+}
+
+body.is-loading,
+body.modal-open {
+    overflow: hidden;
+}
+
+.page-loader {
+    align-items: center;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    inset: 0;
+    justify-content: center;
+    opacity: 1;
+    position: fixed;
+    transition: opacity 0.45s ease, visibility 0.45s ease;
+    visibility: visible;
+    z-index: 999;
+}
+
+.page-loader.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.loader-logo {
+    height: 88px;
+    width: 88px;
+}
+
+.loader-logo img {
+    display: block;
+    height: 100%;
+    object-fit: contain;
+    width: 100%;
+}
+
+.loader-text {
+    color: #fff;
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    letter-spacing: 3px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+/* HEADER */
+.site-header {
+    align-items: center;
+    background: transparent;
+    display: flex;
+    height: 86px;
+    justify-content: space-between;
+    left: 0;
+    padding: 18px 46px;
+    position: fixed;
+    right: 0;
+    top: 0;
+    transition: background 0.35s ease, box-shadow 0.35s ease, height 0.35s ease, padding 0.35s ease;
+    z-index: 50;
+}
+
+.site-header.is-scrolled {
+    background: rgba(0,0,0,0.94);
+    box-shadow: 0 14px 40px rgba(0,0,0,0.45);
+    height: 72px;
+    padding: 12px 46px;
+}
+
+.header-logo {
+    align-items: center;
+    display: flex;
+    height: 58px;
+    width: 58px;
+}
+
+.header-logo img {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+.menu-toggle {
+    align-items: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    height: 36px;
+    justify-content: center;
+    padding: 0;
+    width: 48px;
+}
+
+.menu-toggle span {
+    background: #fff;
+    display: block;
+    height: 3px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    width: 38px;
+}
+
+.menu-toggle.is-open span:first-child {
+    transform: translateY(5px) rotate(45deg);
+}
+
+.menu-toggle.is-open span:last-child {
+    transform: translateY(-5px) rotate(-45deg);
+}
+
+.site-menu {
+    background: rgba(0,0,0,0.96);
+    border-bottom: 1px solid rgba(255,255,255,0.14);
+    display: grid;
+    gap: 22px;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    padding: 0 46px;
+    position: fixed;
+    right: 0;
+    top: 86px;
+    transition: max-height 0.35s ease, opacity 0.35s ease, padding 0.35s ease, top 0.35s ease;
+    width: min(420px, 100%);
+    z-index: 45;
+}
+
+.site-header.is-scrolled + .site-menu {
+    top: 72px;
+}
+
+.site-menu.is-open {
+    max-height: calc(100vh - 86px);
+    opacity: 1;
+    overflow-y: auto;
+    padding: 28px 46px 34px;
+}
+
+.menu-group {
+    display: grid;
+    gap: 10px;
+}
+
+.menu-link,
+.submenu-link {
+    color: #fff;
+    text-decoration: none;
+}
+
+.menu-link {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.submenu-link {
+    color: rgba(255,255,255,0.72);
+    font-size: 0.9rem;
+    padding-left: 18px;
+}
+
+.menu-link:hover,
+.submenu-link:hover {
+    color: #d86b2c;
+}
+
+/* HERO */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    background: #000;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+}
+
+.hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.listen-actions {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 4rem;
+    letter-spacing: 6px;
+}
+
+.tagline {
+    margin-top: 10px;
+    font-size: 1.2rem;
+    opacity: 0.8;
+}
+
+.btn {
+    margin-top: 30px;
+    padding: 12px 28px;
+    border: 1px solid #d4d4d4;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: #fff;
+    color: #000;
+}
+
+.listen-options {
+    background: rgba(0,0,0,0.88);
+    border: 1px solid rgba(255,255,255,0.2);
+    display: grid;
+    gap: 10px;
+    margin-top: 14px;
+    max-height: 0;
+    min-width: 240px;
+    opacity: 0;
+    overflow: hidden;
+    padding: 0 18px;
+    transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
+}
+
+.listen-options.is-open {
+    max-height: 150px;
+    opacity: 1;
+    padding: 16px 18px;
+}
+
+.listen-options a {
+    color: #fff;
+    font-size: 0.86rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.listen-options a:hover {
+    color: #d86b2c;
+}
+
+/* SECTION */
+section {
+    padding: 80px 10%;
+}
+
+.section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 2rem;
+    margin-bottom: 40px;
+}
+
+/* MUSIC GRID */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.card img {
+    width: 100%;
+    transition: 0.5s;
+}
+
+.card:hover img {
+    transform: scale(1.1);
+}
+
+.card-title {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    font-size: 0.9rem;
+}
+
+/* VIDEO SLIDER */
+.featured-slider {
+    position: relative;
+    overflow: hidden;
+}
+
+.slider-window {
+    position: relative;
+    height: 358px;
+    overflow: visible;
+}
+
+.slider-track {
+    position: relative;
+    height: 100%;
+}
+
+.composition-slide {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 636px;
+    height: 358px;
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.55s ease, opacity 0.55s ease, filter 0.55s ease;
+}
+
+.video-card {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.16);
+    border-radius: 22px;
+    background: #090909;
+    box-shadow: 0 24px 70px rgba(0,0,0,0.62);
+    cursor: pointer;
+}
+
+.video-card::after {
+    content: "";
+    inset: 0;
+    position: absolute;
+    z-index: 2;
+}
+
+.video-card iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.composition-slide.is-active {
+    opacity: 1;
+    pointer-events: auto;
+    filter: none;
+}
+
+.composition-slide.is-near {
+    opacity: 0.92;
+    pointer-events: auto;
+    filter: brightness(0.82);
+}
+
+.composition-slide.is-far {
+    opacity: 0.72;
+    pointer-events: auto;
+    filter: brightness(0.68);
+}
+
+.slider-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 18px;
+}
+
+.slider-btn {
+    position: absolute;
+    top: 52%;
+    z-index: 20;
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(255,255,255,0.45);
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    cursor: pointer;
+    font-size: 1.2rem;
+    line-height: 1;
+    transition: 0.3s;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.35);
+}
+
+.slider-prev {
+    left: 5%;
+}
+
+.slider-next {
+    right: 5%;
+}
+
+.slider-btn:hover {
+    background: #fff;
+    color: #000;
+}
+
+.slider-dots {
+    display: flex;
+    gap: 8px;
+}
+
+.slider-dot {
+    width: 9px;
+    height: 9px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.35);
+    cursor: pointer;
+    padding: 0;
+}
+
+.slider-dot.active {
+    background: #fff;
+}
+
+.video-modal {
+    align-items: center;
+    background: rgba(0,0,0,0.94);
+    display: flex;
+    inset: 0;
+    justify-content: center;
+    opacity: 0;
+    padding: 28px;
+    pointer-events: none;
+    position: fixed;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    visibility: hidden;
+    z-index: 1000;
+}
+
+.video-modal.is-open {
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+}
+
+.video-modal-frame {
+    aspect-ratio: 16 / 9;
+    background: #000;
+    max-height: calc(100vh - 96px);
+    width: min(1200px, 94vw);
+}
+
+.video-modal-frame iframe {
+    border: 0;
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+.video-modal-close {
+    align-items: center;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    font-size: 1.6rem;
+    height: 44px;
+    justify-content: center;
+    position: absolute;
+    right: 28px;
+    top: 24px;
+    width: 44px;
+}
+
+.video-modal-close:hover {
+    background: #fff;
+    color: #000;
+}
+
+/* TOP COMPOSITIONS */
+.top-compositions {
+    background: #030303;
+}
+
+.top-composition-list {
+    display: grid;
+    gap: 80px;
+}
+
+.top-composition-item {
+    align-items: stretch;
+    border: 1px solid rgba(255,255,255,0.12);
+    display: grid;
+    gap: 28px;
+    grid-template-columns: minmax(280px, 46%) 1fr;
+    min-height: calc(100vh - 170px);
+    padding: 24px;
+}
+
+.top-composition-video {
+    background: #090909;
+    min-height: 360px;
+    overflow: hidden;
+}
+
+.top-composition-video iframe {
+    border: none;
+    display: block;
+    height: 100%;
+    min-height: 360px;
+    width: 100%;
+}
+
+.top-composition-copy {
+    align-self: center;
+}
+
+.top-composition-copy h3 {
+    color: #fff;
+    font-family: 'Cinzel', serif;
+    font-size: 1.35rem;
+    font-weight: 600;
+    line-height: 1.35;
+    margin-bottom: 12px;
+}
+
+.top-composition-subtitle {
+    color: rgba(255,255,255,0.72);
+    font-size: 0.95rem;
+    font-style: italic;
+    margin-bottom: 18px;
+}
+
+.top-composition-copy p {
+    color: rgba(255,255,255,0.76);
+    line-height: 1.7;
+}
+
+.youtube-link {
+    color: #fff;
+    display: inline-block;
+    font-size: 0.9rem;
+    margin-top: 20px;
+    text-decoration: none;
+}
+
+.youtube-link:hover {
+    color: #d86b2c;
+}
+
+/* NEW RELEASES */
+.new-releases {
+    background:
+        radial-gradient(circle at 18% 18%, rgba(198,139,60,0.1), transparent 32%),
+        #050505;
+}
+
+.new-release-grid {
+    display: grid;
+    gap: 28px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.new-release-card {
+    border: 1px solid rgba(255,255,255,0.12);
+    background: #090909;
+    overflow: hidden;
+}
+
+.new-release-video {
+    aspect-ratio: 16 / 9;
+    background: #000;
+}
+
+.new-release-video iframe {
+    border: none;
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+/* GENRES */
+.genres-section {
+    background: #000;
+    min-height: auto;
+}
+
+.genre-grid {
+    display: grid;
+    gap: 22px;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.genre-panel {
+    background: #070707;
+    border: 1px solid rgba(255,255,255,0.13);
+    border-radius: 18px;
+    color: #fff;
+    display: block;
+    height: 360px;
+    min-height: 0;
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    transition: transform 0.45s ease, opacity 0.45s ease;
+    width: 100%;
+}
+
+.genre-panel img {
+    display: block;
+    height: 100%;
+    min-height: 0;
+    object-fit: cover;
+    opacity: 0.68;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    width: 100%;
+}
+
+.genre-panel:hover img {
+    opacity: 0.88;
+    transform: scale(1.06);
+}
+
+.genre-panel:hover {
+    transform: translateY(-8px);
+}
+
+.genre-panel-content {
+    bottom: 0;
+    left: 0;
+    padding: 22px;
+    position: absolute;
+    right: 0;
+    z-index: 2;
+}
+
+.genre-panel::after {
+    background: linear-gradient(to top, rgba(0,0,0,0.86), rgba(0,0,0,0.08));
+    content: "";
+    inset: 0;
+    position: absolute;
+}
+
+.genre-panel h3 {
+    color: #fff;
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.genre-panel p {
+    color: rgba(255,255,255,0.72);
+    font-size: 0.9rem;
+    line-height: 1.45;
+}
+
+.genre-open {
+    color: #fff;
+    display: inline-block;
+    font-size: 0.82rem;
+    margin-top: 18px;
+    text-transform: uppercase;
+}
+
+.soundcloud-slot iframe {
+    border: none;
+    display: block;
+    width: 100%;
+}
+
+@media (min-width: 900px) {
+    .genres-section {
+        padding-top: 64px;
+        padding-bottom: 64px;
+    }
+}
+
+/* ABOUT */
+.about-section {
+    background: radial-gradient(circle at 68% 18%, rgba(183,122,42,0.08), transparent 34%), #000;
+}
+
+.about-heading {
+    margin: 0 auto 34px;
+    max-width: 1500px;
+}
+
+.about {
+    align-items: start;
+    display: grid;
+    gap: 46px;
+    grid-template-columns: minmax(320px, 36%) minmax(0, 1fr);
+    margin: 0 auto;
+    max-width: 1500px;
+}
+
+.about-image {
+    align-self: start;
+    aspect-ratio: 4 / 5.4;
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 8px;
+    box-shadow: 0 24px 90px rgba(0,0,0,0.5);
+    height: auto;
+    min-height: 0;
+    overflow: hidden;
+    width: 100%;
+}
+
+.about-image img {
+    display: block;
+    height: 100%;
+    object-fit: cover;
+    object-position: 38% center;
+    width: 100%;
+}
+
+.about-content {
+    background: #000;
+    line-height: 1.7;
+    min-width: 0;
+    position: relative;
+    z-index: 2;
+}
+
+.about-title {
+    color: #f3eee8;
+    font-family: 'Cinzel', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: 4px;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+}
+
+.about-divider {
+    align-items: center;
+    display: flex;
+    gap: 12px;
+    margin-bottom: 28px;
+    max-width: 360px;
+}
+
+.about-divider::before,
+.about-divider::after {
+    background: rgba(196,136,56,0.55);
+    content: "";
+    flex: 1;
+    height: 1px;
+}
+
+.about-divider svg {
+    color: #c68b3c;
+    height: 18px;
+    stroke: currentColor;
+    width: 34px;
+}
+
+.about-content p {
+    margin-bottom: 18px;
+}
+
+.about-work-heading {
+    align-items: center;
+    color: #c68b3c;
+    display: flex;
+    font-family: 'Cinzel', serif;
+    font-size: 1.02rem;
+    gap: 14px;
+    letter-spacing: 4px;
+    margin: 28px 0 18px;
+    text-transform: uppercase;
+}
+
+.about-work-heading::after {
+    background: rgba(196,136,56,0.25);
+    content: "";
+    flex: 1;
+    height: 1px;
+}
+
+.about-services {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    list-style: none;
+    margin: 0 0 26px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    border-left: 1px solid rgba(255,255,255,0.08);
+}
+
+.about-services li {
+    align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    border-right: 1px solid rgba(255,255,255,0.08);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    justify-content: center;
+    min-height: 118px;
+    padding: 18px 10px;
+    text-align: center;
+}
+
+.about-icon {
+    align-items: center;
+    border: 1px solid #c68b3c;
+    border-radius: 50%;
+    color: #c68b3c;
+    display: flex;
+    height: 48px;
+    justify-content: center;
+    width: 48px;
+}
+
+.about-icon svg {
+    height: 25px;
+    stroke: currentColor;
+    width: 25px;
+}
+
+.about-research {
+    border: 1px solid rgba(198,139,60,0.62);
+    border-radius: 6px;
+    color: #d9a557;
+    font-style: italic;
+    margin: 10px auto 18px;
+    max-width: 780px;
+    padding: 16px 28px;
+    position: relative;
+    text-align: center;
+}
+
+.about-research::before {
+    color: rgba(255,255,255,0.42);
+    content: '"';
+    font-size: 4rem;
+    left: 24px;
+    line-height: 1;
+    position: absolute;
+    top: 4px;
+}
+
+.about-highlight {
+    align-items: center;
+    border: 1px solid rgba(198,139,60,0.28);
+    border-radius: 6px;
+    display: grid;
+    gap: 18px;
+    grid-template-columns: 54px 1fr;
+    margin-top: 12px;
+    padding: 14px 18px;
+}
+
+.about-highlight strong {
+    color: #c68b3c;
+    display: block;
+    font-family: 'Cinzel', serif;
+    font-size: 0.96rem;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+}
+
+.about-highlight p {
+    margin: 0;
+}
+
+/* GALLERY */
+.gallery img {
+    width: 100%;
+    filter: grayscale(100%);
+}
+
+/* FOOTER */
+.site-footer {
+    background:
+        linear-gradient(90deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.42) 44%, rgba(0,0,0,0.66) 100%),
+        url("images/footer-landscape.png") center / cover no-repeat;
+    border-top: 1px solid rgba(255,255,255,0.35);
+    min-height: 360px;
+    padding: 92px 10% 120px;
+}
+
+.footer-inner {
+    margin: 0 auto;
+    max-width: 1260px;
+}
+
+.footer-brand {
+    align-items: center;
+    display: flex;
+    gap: 22px;
+}
+
+.footer-logo {
+    display: block;
+    flex: 0 0 auto;
+    height: 78px;
+    width: 78px;
+}
+
+.footer-logo img {
+    display: block;
+    height: 100%;
+    object-fit: contain;
+    width: 100%;
+}
+
+.footer-name {
+    color: #fff;
+    font-family: 'Cinzel', serif;
+    font-size: 2.35rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    line-height: 1;
+}
+
+.footer-genres {
+    color: #d8c8c0;
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 5px;
+    margin-top: 10px;
+    text-transform: uppercase;
+}
+
+.footer-social {
+    display: flex;
+    gap: 22px;
+    margin-top: 24px;
+    padding-left: 100px;
+}
+
+.footer-social a {
+    align-items: center;
+    color: #fff;
+    display: flex;
+    height: 22px;
+    justify-content: center;
+    text-decoration: none;
+    width: 22px;
+}
+
+.footer-social svg {
+    display: block;
+    fill: currentColor;
+    height: 100%;
+    width: 100%;
+}
+
+.footer-social a:hover {
+    color: #d86b2c;
+}
+
+/* SCROLL ANIMATION */
+.fade {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: 1s;
+}
+
+.fade.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+
+    .hero {
+        padding: 0 20px;
+        background-position: center;
+    }
+
+    .site-header {
+        height: 74px;
+        padding: 14px 20px;
+    }
+
+    .site-header.is-scrolled {
+        height: 66px;
+        padding: 10px 20px;
+    }
+
+    .header-logo {
+        height: 48px;
+        width: 48px;
+    }
+
+    .menu-toggle {
+        width: 40px;
+    }
+
+    .menu-toggle span {
+        width: 32px;
+    }
+
+    .site-menu {
+        padding: 0 20px;
+        top: 74px;
+        width: 100%;
+    }
+
+    .site-header.is-scrolled + .site-menu {
+        top: 66px;
+    }
+
+    .site-menu.is-open {
+        padding: 24px 20px 30px;
+    }
+
+    h1 {
+        font-size: 2.2rem;
+        letter-spacing: 3px;
+    }
+
+    .tagline {
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+
+    .listen-options {
+        min-width: 220px;
+    }
+
+    section {
+        padding: 60px 20px;
+    }
+
+    .slider-window {
+        height: calc((100vw - 40px) * 0.563);
+        min-height: 190px;
+    }
+
+    .composition-slide {
+        width: calc(100vw - 40px);
+        height: calc((100vw - 40px) * 0.563);
+        min-height: 190px;
+    }
+
+    .video-card {
+        border-radius: 18px;
+    }
+
+    .video-modal {
+        padding: 16px;
+    }
+
+    .video-modal-close {
+        right: 16px;
+        top: 14px;
+    }
+
+    .top-composition-item {
+        grid-template-columns: 1fr;
+        min-height: auto;
+        padding: 18px;
+    }
+
+    .top-composition-video,
+    .top-composition-video iframe {
+        min-height: 210px;
+    }
+
+    .new-release-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .slider-prev {
+        left: 8px;
+    }
+
+    .slider-next {
+        right: 8px;
+    }
+
+    .site-footer {
+        padding: 58px 20px 72px;
+    }
+
+    .footer-brand {
+        gap: 16px;
+    }
+
+    .footer-logo {
+        height: 58px;
+        width: 58px;
+    }
+
+    .footer-name {
+        font-size: 1.75rem;
+        letter-spacing: 1.5px;
+    }
+
+    .footer-genres {
+        font-size: 0.72rem;
+        letter-spacing: 3px;
+    }
+
+    .footer-social {
+        margin-top: 20px;
+        padding-left: 74px;
+    }
+
+    .about {
+        grid-template-columns: 1fr;
+    }
+
+    .genre-grid {
+        display: grid;
+        gap: 18px;
+        height: auto;
+        grid-template-columns: 1fr;
+        position: static;
+    }
+
+    .genre-panel,
+    .genre-panel:nth-child(1),
+    .genre-panel:nth-child(2),
+    .genre-panel:nth-child(3),
+    .genre-panel:nth-child(4) {
+        height: 240px;
+        left: auto;
+        position: relative;
+        top: auto;
+        transform: none;
+        width: 100%;
+    }
+
+    .about-image {
+        min-height: 320px;
+    }
+
+    .about-services {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .about-title {
+        letter-spacing: 4px;
+    }
+
+}
+
+/* SMALL PHONES */
+@media (max-width: 480px) {
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    .btn {
+        width: 100%;
+        max-width: 220px;
+    }
+
+    .about-services {
+        grid-template-columns: 1fr;
+    }
+
+    .about-highlight {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+    <div class="page-loader" id="page-loader" aria-live="polite">
+        <div class="loader-logo">
+            <img src="images/lazante-logo.png" alt="Lazante">
+        </div>
+        <div class="loader-text" id="loader-text">Loading the vibes...</div>
+    </div>
+
+    <audio id="Genshin_song" loop>
+    <source src="music/Genshin_song.mp3" type="audio/mpeg">
+</audio>
+
+<header class="site-header">
+    <a class="header-logo" href="#home" aria-label="Lazante home">
+        <img src="images/lazante-logo.png" alt="Lazante">
+    </a>
+
+    <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-menu">
+        <span></span>
+        <span></span>
+    </button>
+</header>
+
+<nav class="site-menu" id="site-menu" aria-label="Main menu">
+    <div class="menu-group">
+        <a class="menu-link" href="#home">Home</a>
+    </div>
+
+    <div class="menu-group">
+        <a class="menu-link" href="#top-compositions">My Top Composition / Covers</a>
+        <a class="submenu-link" href="#ezios-family">Ezio's Family</a>
+        <a class="submenu-link" href="#again-gurenge">Again X Gurenge</a>
+        <a class="submenu-link" href="#thunderstruck">Thunderstruck</a>
+    </div>
+
+    <div class="menu-group">
+        <a class="menu-link" href="#new-releases">New Releases</a>
+    </div>
+
+    <div class="menu-group">
+        <a class="menu-link" href="#genres">Feel the Genres</a>
+        <a class="submenu-link" href="thriller.html">Thriller</a>
+        <a class="submenu-link" href="romance.html">Romance</a>
+        <a class="submenu-link" href="fantasy.html">Fantasy</a>
+        <a class="submenu-link" href="melancholy.html">Melancholy</a>
+        <a class="submenu-link" href="rock.html">Rock</a>
+    </div>
+
+    <div class="menu-group">
+        <a class="menu-link" href="#featured">Featured Composition</a>
+    </div>
+
+    <div class="menu-group">
+        <a class="menu-link" href="#about">About Me</a>
+    </div>
+
+    <div class="menu-group">
+        <a class="menu-link" href="#footer">Contact</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="home">
+    <video class="hero-video" autoplay muted loop playsinline>
+        <source src="videos/Websitevideo.mp4" type="video/mp4">
+    </video>
+    <div class="hero-content">
+        <h1>LAZANTE</h1>
+        <p class="tagline">Sound that bleeds beyond silence</p>
+        <div class="listen-actions">
+            <button class="btn listen-toggle" type="button" aria-expanded="false" aria-controls="listen-options">Listen Now</button>
+            <div class="listen-options" id="listen-options">
+                <a href="https://www.youtube.com/results?search_query=lazantemusic" target="_blank" rel="noopener">YouTube Channel</a>
+                <a href="#featured">Featured Compositions</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about-section fade" id="about">
+    <div class="about-heading">
+        <h2 class="about-title">About Me</h2>
+        <div class="about-divider">
+            <svg viewBox="0 0 40 18" fill="none" stroke-width="1.5">
+                <path d="M2 9h7"/>
+                <path d="M11 9v-3"/>
+                <path d="M15 9v6"/>
+                <path d="M19 9V2"/>
+                <path d="M23 9v6"/>
+                <path d="M27 9V6"/>
+                <path d="M31 9h7"/>
+            </svg>
+        </div>
+    </div>
+
+    <div class="about">
+        <div class="about-image">
+            <img src="images/about-me.png" alt="Lazante in studio">
+        </div>
+
+        <div class="about-content">
+            <p>
+                Music has always been more than just sound to me - it is emotion, atmosphere, storytelling, and
+                experience. My journey combines creative composition, sound engineering, and branding, allowing me to
+                understand not only how music should sound, but also how it should make people feel.
+            </p>
+
+            <p>
+                I specialize in cinematic, orchestral, and emotionally driven music production with a strong focus on
+                realism, depth, and immersive sound design. Using industry-standard tools like Cubase, Nuendo, and
+                Kontakt, I create compositions that blend modern production techniques with orchestral expression.
+            </p>
+
+            <div class="about-work-heading" id="my-work">My Work Includes</div>
+
+            <ul class="about-services">
+                <li>
+                    <span class="about-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span>
+                    <span>Music<br>Composition</span>
+                </li>
+                <li>
+                    <span class="about-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path d="M3 12h3l2-5 4 10 3-7 2 2h4"/></svg></span>
+                    <span>Sound<br>Engineering</span>
+                </li>
+                <li>
+                    <span class="about-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><path d="M2 14h4"/><path d="M10 8h4"/><path d="M18 16h4"/></svg></span>
+                    <span>Mixing &amp;<br>Mastering</span>
+                </li>
+                <li>
+                    <span class="about-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path d="M14 3l7 7"/><path d="M5 21l9-9"/><path d="M12 5l7 7"/><path d="M7 19l-2-2"/><path d="M15 4l-4 4"/><path d="M18 7l-4 4"/><path d="M3 15l6 6"/></svg></span>
+                    <span>Orchestral<br>Arrangement</span>
+                </li>
+                <li>
+                    <span class="about-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path d="M3 12h2"/><path d="M7 8v8"/><path d="M10 5v14"/><path d="M13 9v6"/><path d="M16 6v12"/><path d="M19 10v4"/><path d="M21 12h0"/></svg></span>
+                    <span>Cinematic Sound<br>Design</span>
+                </li>
+                <li>
+                    <span class="about-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/><path d="M8 21h8"/></svg></span>
+                    <span>Live Sound<br>Handling</span>
+                </li>
+                <li>
+                    <span class="about-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path d="M4 14a8 8 0 0 1 16 0"/><path d="M4 14v4a2 2 0 0 0 2 2h2v-8H6a2 2 0 0 0-2 2z"/><path d="M20 14v4a2 2 0 0 1-2 2h-2v-8h2a2 2 0 0 1 2 2z"/></svg></span>
+                    <span>Audio Editing &amp;<br>Production</span>
+                </li>
+                <li>
+                    <span class="about-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><rect x="6" y="4" width="12" height="16" rx="1"/><circle cx="12" cy="15" r="2"/><path d="M9 8h6"/><path d="M9 11h6"/></svg></span>
+                    <span>Sound Design &amp;<br>Studio Setup</span>
+                </li>
+            </ul>
+
+            <p>
+                Beyond music, my background in marketing and client servicing has helped me understand audience
+                psychology, branding, and emotional engagement through sound. During my MBA in Marketing with a
+                specialization in Media Planning, I also conducted research on:
+            </p>
+
+            <p class="about-research">
+                Examining the Influence of Ambient Music on Consumer Perception and Attitude Towards a Retail Store
+            </p>
+
+            <p>
+                This research strengthened my understanding of how sound influences emotion, attention, atmosphere, and
+                human behavior.
+            </p>
+
+            <p>
+                Over time, I have worked across both creative and professional environments - from handling live sound
+                for performances and festivals to collaborating with businesses and brands through strategic
+                communication and creative execution.
+            </p>
+
+            <div class="about-highlight">
+                <span class="about-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path d="M12 3l2.7 5.5 6.1.9-4.4 4.3 1 6.1L12 16.9 6.6 19.8l1-6.1-4.4-4.3 6.1-.9L12 3z"/></svg></span>
+                <p><strong>My Goal Is Simple:</strong>To create music and sound that leaves a lasting emotional impact.</p>
+            </div>
+
+            <div class="about-highlight">
+                <span class="about-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span>
+                <p><strong>Whether It Is</strong>orchestral storytelling, cinematic arrangements, immersive soundscapes, or modern production, I focus on delivering work that feels authentic, detailed, and emotionally connected.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- NEW RELEASES -->
+<section class="new-releases fade" id="new-releases">
+    <h2 class="section-title">New Releases</h2>
+
+    <div class="new-release-grid">
+        <article class="new-release-card">
+            <div class="new-release-video">
+                <iframe
+                    src="https://www.youtube-nocookie.com/embed/mOX72zq_bJY"
+                    title="New Release 1"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+            </div>
+        </article>
+
+        <article class="new-release-card">
+            <div class="new-release-video">
+                <iframe
+                    src="https://www.youtube-nocookie.com/embed/k4W-Ao9_rPo"
+                    title="New Release 2"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+            </div>
+        </article>
+    </div>
+</section>
+
+<!-- TOP COMPOSITIONS -->
+<section class="top-compositions fade" id="top-compositions">
+    <h2 class="section-title">My Top Composition / Covers</h2>
+
+    <div class="top-composition-list">
+        <article class="top-composition-item" id="ezios-family">
+            <div class="top-composition-video">
+                <iframe
+                    src="https://www.youtube-nocookie.com/embed/tm0nRskyeeE"
+                    title="Ezio's Family - Assassin's Creed / Jesper Kyd Orchestration Cover"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+            </div>
+
+            <div class="top-composition-copy">
+                <h3>Ezio's Family - Assassin's Creed/Jesper Kyd (Orchestration Cover)</h3>
+                <div class="top-composition-subtitle">Inspired by Assassin's Creed music composed by Jesper Kyd</div>
+                <p>
+                    A cinematic orchestration cover of Ezio's Family created with a focus on emotional storytelling,
+                    immersive arrangement, and high-quality sound production. The project gained significant audience
+                    traction online, crossing 74K+ views on YouTube, making it one of my most successful music
+                    productions in terms of audience reach and engagement.
+                </p>
+                <a class="youtube-link" href="https://www.youtube.com/watch?v=tm0nRskyeeE" target="_blank" rel="noopener">Watch on YouTube</a>
+            </div>
+        </article>
+
+        <article class="top-composition-item" id="again-gurenge">
+            <div class="top-composition-video">
+                <iframe
+                    src="https://www.youtube-nocookie.com/embed/rVCClX23kVo"
+                    title="Composition / Cover 2"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+            </div>
+
+            <div class="top-composition-copy">
+                <h3>"Again X Gurenge" Cinematic Anime Orchestration Remix</h3>
+                <div class="top-composition-subtitle">Inspired by the songs Again by YUI and Gurenge by LiSA</div>
+                <p>
+                    Project Overview<br>
+                    A cinematic orchestration remix where two blockbuster anime opening themes were creatively merged
+                    into a single musical experience to imagine how both worlds would feel if the characters existed
+                    within the same universe. The project was designed with a strong cinematic narrative approach,
+                    combining emotional storytelling, orchestral intensity, and modern hybrid production techniques to
+                    create a seamless crossover experience for anime audiences.
+                </p>
+                <a class="youtube-link" href="https://www.youtube.com/watch?v=rVCClX23kVo" target="_blank" rel="noopener">Watch on YouTube</a>
+            </div>
+        </article>
+
+        <article class="top-composition-item" id="thunderstruck">
+            <div class="top-composition-video">
+                <iframe
+                    src="https://www.youtube-nocookie.com/embed/6zvs4EaGiH4"
+                    title="Composition / Cover 3"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+            </div>
+
+            <div class="top-composition-copy">
+                <h3>AC/DC - Thunderstruck (Orchestration Cover)</h3>
+                <div class="top-composition-subtitle">Inspired by Thunderstruck by the legendary rock band AC/DC</div>
+                <p>
+                    Project Overview<br>
+                    A cinematic orchestration cover of Thunderstruck, reimagining one of rock music's most iconic
+                    tracks into an epic hybrid orchestral experience. The project focused on transforming the raw energy
+                    of AC/DC's original composition into a large-scale cinematic production using orchestral scoring,
+                    aggressive percussion, trailer-style sound design, and hybrid arrangement techniques while preserving
+                    the instantly recognizable intensity of the original song.
+                </p>
+                <a class="youtube-link" href="https://www.youtube.com/watch?v=6zvs4EaGiH4" target="_blank" rel="noopener">Watch on YouTube</a>
+            </div>
+        </article>
+    </div>
+</section>
+
+<!-- GENRES -->
+<section class="genres-section fade" id="genres">
+    <h2 class="section-title">Feel the Genres</h2>
+
+    <div class="genre-grid">
+        <a class="genre-panel" href="thriller.html">
+            <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200" alt="Thriller genre">
+            <div class="genre-panel-content">
+                <h3>Thriller</h3>
+                <p>Dark pulses, suspense, tension, and cinematic movement.</p>
+                <span class="genre-open">Experience tracks</span>
+            </div>
+        </a>
+
+        <a class="genre-panel" href="romance.html">
+            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200" alt="Romance genre">
+            <div class="genre-panel-content">
+                <h3>Romance</h3>
+                <p>Warm melodies, emotional movement, and intimate textures.</p>
+                <span class="genre-open">Experience tracks</span>
+            </div>
+        </a>
+
+        <a class="genre-panel" href="fantasy.html">
+            <img src="images/fantasy-genre.jpg" alt="Fantasy genre" loading="lazy">
+            <div class="genre-panel-content">
+                <h3>Fantasy</h3>
+                <p>Wonder, orchestral color, magic, scale, and immersive worlds.</p>
+                <span class="genre-open">Experience tracks</span>
+            </div>
+        </a>
+
+        <a class="genre-panel" href="melancholy.html">
+            <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1200" alt="Melancholy genre">
+            <div class="genre-panel-content">
+                <h3>Melancholy</h3>
+                <p>Quiet emotion, reflective harmony, and restrained atmosphere.</p>
+                <span class="genre-open">Experience tracks</span>
+            </div>
+        </a>
+
+        <a class="genre-panel" href="rock.html">
+            <img src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?q=80&w=1200" alt="Rock genre" loading="lazy">
+            <div class="genre-panel-content">
+                <h3>Rock</h3>
+                <p>Heavy energy, driving rhythm, bold guitars, and cinematic force.</p>
+                <span class="genre-open">Experience tracks</span>
+            </div>
+        </a>
+    </div>
+</section>
+
+<!-- FEATURED -->
+<section class="featured-slider fade" id="featured">
+    <h2 class="section-title">Featured Composition</h2>
+    <div class="slider-window">
+        <div class="slider-track">
+            <div class="composition-slide">
+                <div class="video-card">
+                    <iframe
+                        src="https://www.youtube-nocookie.com/embed/WMHNe1QPjMQ"
+                        title="Lazante Composition 1"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="composition-slide">
+                <div class="video-card">
+                    <iframe
+                        src="https://www.youtube-nocookie.com/embed/Tf6fFHhl3RU"
+                        title="Lazante Composition 2"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="composition-slide">
+                <div class="video-card">
+                    <iframe
+                        src="https://www.youtube-nocookie.com/embed/V03cNCr75xU"
+                        title="Lazante Composition 3"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="composition-slide">
+                <div class="video-card">
+                    <iframe
+                        src="https://www.youtube-nocookie.com/embed/CAE_EnO39nQ"
+                        title="Lazante Composition 4"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="composition-slide">
+                <div class="video-card">
+                    <iframe
+                        src="https://www.youtube-nocookie.com/embed/Di3450X7cT4"
+                        title="Lazante Composition 5"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="composition-slide">
+                <div class="video-card">
+                    <iframe
+                        src="https://www.youtube-nocookie.com/embed/HWqHPdfeYUs"
+                        title="Lazante Composition 6"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="composition-slide">
+                <div class="video-card">
+                    <iframe
+                        src="https://www.youtube-nocookie.com/embed/Rr5DB7lus2M"
+                        title="Lazante Composition 7"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="composition-slide">
+                <div class="video-card">
+                    <iframe
+                        src="https://www.youtube-nocookie.com/embed/HfREnOnkap0"
+                        title="Lazante Composition 8"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="composition-slide">
+                <div class="video-card">
+                    <iframe
+                        src="https://www.youtube-nocookie.com/embed/6PE_e2uScpo"
+                        title="Lazante Composition 9"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slider-controls" aria-label="Featured composition slider controls">
+        <button class="slider-btn slider-prev" type="button" aria-label="Previous composition">&lt;</button>
+        <div class="slider-dots" aria-label="Featured composition slides"></div>
+        <button class="slider-btn slider-next" type="button" aria-label="Next composition">&gt;</button>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer fade" id="footer">
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <a class="footer-logo" href="#home" aria-label="Lazante home">
+                <img src="images/lazante-logo.png" alt="Lazante">
+            </a>
+
+            <div>
+                <div class="footer-name">LAZANTE</div>
+                <div class="footer-genres">Orchestral | Cinematic | Soul</div>
+            </div>
+        </div>
+
+        <div class="footer-social" aria-label="Social links">
+            <a href="https://www.youtube.com/@lazantemusic" target="_blank" rel="noopener" aria-label="YouTube">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.2 31.2 0 0 0 0 12a31.2 31.2 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31.2 31.2 0 0 0 24 12a31.2 31.2 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/>
+                </svg>
+            </a>
+            <a href="https://www.instagram.com/l.a.z.a.n.t.e/?hl=en" target="_blank" rel="noopener" aria-label="Instagram">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M7.4 2h9.2A5.4 5.4 0 0 1 22 7.4v9.2a5.4 5.4 0 0 1-5.4 5.4H7.4A5.4 5.4 0 0 1 2 16.6V7.4A5.4 5.4 0 0 1 7.4 2zm0 2A3.4 3.4 0 0 0 4 7.4v9.2A3.4 3.4 0 0 0 7.4 20h9.2a3.4 3.4 0 0 0 3.4-3.4V7.4A3.4 3.4 0 0 0 16.6 4H7.4zm9.8 2.2a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2zM12 7.1a4.9 4.9 0 1 1 0 9.8 4.9 4.9 0 0 1 0-9.8zm0 2a2.9 2.9 0 1 0 0 5.8 2.9 2.9 0 0 0 0-5.8z"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+</footer>
+
+<div class="video-modal" id="video-modal" aria-hidden="true">
+    <button class="video-modal-close" type="button" aria-label="Close video">&times;</button>
+    <div class="video-modal-frame" id="video-modal-frame"></div>
+</div>
+
+<script>
+const loadingTexts = [
+    'Loading the vibes...',
+    'Tuning the orchestra...',
+    'Composing pixels in real time...',
+    'Warming up the synths...',
+    'Mixing visuals & melodies...',
+    'Syncing the bassline...',
+    'Adding cinematic reverb...',
+    'Calibrating the soundscape...',
+    'Summoning the next movement...',
+    'Rendering your soundtrack...'
+];
+
+const pageLoader = document.getElementById('page-loader');
+const loaderText = document.getElementById('loader-text');
+const navEntry = performance.getEntriesByType('navigation')[0];
+const isReload = navEntry?.type === 'reload';
+const isFirstVisit = sessionStorage.getItem('lazanteLoaderShown') !== 'true';
+const shouldShowLoader = isFirstVisit || isReload;
+
+if (shouldShowLoader) {
+    document.body.classList.add('is-loading');
+
+    if (loaderText) {
+        loaderText.textContent = loadingTexts[Math.floor(Math.random() * loadingTexts.length)];
+    }
+
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            document.body.classList.remove('is-loading');
+            pageLoader?.classList.add('is-hidden');
+            sessionStorage.setItem('lazanteLoaderShown', 'true');
+        }, 700);
+    });
+} else {
+    pageLoader?.classList.add('is-hidden');
+}
+
+const music = document.getElementById("Genshin_song");
+
+if (music) {
+    document.addEventListener("click", () => {
+        music.volume = 0;
+        music.play();
+
+        let vol = 0;
+        const fade = setInterval(() => {
+            if (vol < 0.3) {
+                vol += 0.02;
+                music.volume = vol;
+            } else {
+                clearInterval(fade);
+            }
+        }, 200);
+    }, { once: true });
+}
+
+const faders = document.querySelectorAll('.fade');
+const header = document.querySelector('.site-header');
+const menuToggle = document.querySelector('.menu-toggle');
+const siteMenu = document.querySelector('.site-menu');
+const listenToggle = document.querySelector('.listen-toggle');
+const listenOptions = document.querySelector('.listen-options');
+const videoModal = document.getElementById('video-modal');
+const videoModalFrame = document.getElementById('video-modal-frame');
+const videoModalClose = document.querySelector('.video-modal-close');
+
+if (listenToggle && listenOptions) {
+    listenToggle.addEventListener('click', () => {
+        const isOpen = listenOptions.classList.toggle('is-open');
+        listenToggle.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    listenOptions.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            listenOptions.classList.remove('is-open');
+            listenToggle.setAttribute('aria-expanded', 'false');
+        });
+    });
+}
+
+function openVideoModal(src, title) {
+    if (!videoModal || !videoModalFrame) {
+        return;
+    }
+
+    const separator = src.includes('?') ? '&' : '?';
+    videoModalFrame.innerHTML = `<iframe src="${src}${separator}autoplay=1" title="${title}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+    videoModal.classList.add('is-open');
+    videoModal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+}
+
+function closeVideoModal() {
+    if (!videoModal || !videoModalFrame) {
+        return;
+    }
+
+    if (!videoModal.classList.contains('is-open')) {
+        return;
+    }
+
+    videoModal.classList.remove('is-open');
+    videoModal.setAttribute('aria-hidden', 'true');
+    videoModalFrame.innerHTML = '';
+    document.body.classList.remove('modal-open');
+    document.dispatchEvent(new CustomEvent('featured-video-closed'));
+}
+
+videoModalClose?.addEventListener('click', closeVideoModal);
+
+videoModal?.addEventListener('click', event => {
+    if (event.target === videoModal) {
+        closeVideoModal();
+    }
+});
+
+document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') {
+        closeVideoModal();
+    }
+});
+
+if (menuToggle && siteMenu) {
+    menuToggle.addEventListener('click', () => {
+        const isOpen = siteMenu.classList.toggle('is-open');
+        menuToggle.classList.toggle('is-open', isOpen);
+        menuToggle.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    siteMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            siteMenu.classList.remove('is-open');
+            menuToggle.classList.remove('is-open');
+            menuToggle.setAttribute('aria-expanded', 'false');
+        });
+    });
+}
+
+function updateHeader() {
+    if (!header) {
+        return;
+    }
+
+    header.classList.toggle('is-scrolled', window.scrollY > window.innerHeight - 90);
+}
+
+window.addEventListener('scroll', () => {
+    updateHeader();
+
+    faders.forEach(el => {
+        const top = el.getBoundingClientRect().top;
+        if (top < window.innerHeight - 100) {
+            el.classList.add('show');
+        }
+    });
+});
+
+updateHeader();
+
+const slider = document.querySelector('.featured-slider');
+
+if (slider) {
+    const track = slider.querySelector('.slider-track');
+    const slides = slider.querySelectorAll('.composition-slide');
+    const prev = slider.querySelector('.slider-prev');
+    const next = slider.querySelector('.slider-next');
+    const dots = slider.querySelector('.slider-dots');
+    let currentSlide = 0;
+    let autoRotate;
+
+    slides.forEach((_, index) => {
+        const dot = document.createElement('button');
+        dot.className = 'slider-dot';
+        dot.type = 'button';
+        dot.setAttribute('aria-label', `Show composition ${index + 1}`);
+        dot.addEventListener('click', () => {
+            showSlide(index);
+            restartAutoRotate();
+        });
+        dots.appendChild(dot);
+    });
+
+    const dotButtons = dots.querySelectorAll('.slider-dot');
+
+    slides.forEach(slide => {
+        const videoCard = slide.querySelector('.video-card');
+        const iframe = slide.querySelector('iframe');
+
+        videoCard?.addEventListener('click', () => {
+            clearInterval(autoRotate);
+            openVideoModal(iframe.src, iframe.title);
+        });
+    });
+
+    document.addEventListener('featured-video-closed', restartAutoRotate);
+
+    function showSlide(index) {
+        currentSlide = (index + slides.length) % slides.length;
+
+        slides.forEach((slide, slideIndex) => {
+            let offset = slideIndex - currentSlide;
+
+            if (offset > slides.length / 2) {
+                offset -= slides.length;
+            }
+
+            if (offset < -slides.length / 2) {
+                offset += slides.length;
+            }
+
+            const distance = Math.abs(offset);
+            const translate = offset * 46;
+            const scale = distance === 0 ? 1 : distance === 1 ? 0.9 : 0.78;
+            const depth = distance === 0 ? 3 : distance === 1 ? 2 : 1;
+
+            slide.classList.toggle('is-active', distance === 0);
+            slide.classList.toggle('is-near', distance === 1);
+            slide.classList.toggle('is-far', distance === 2);
+            slide.style.zIndex = depth;
+            slide.style.transform = `translate(-50%, -50%) translateX(${translate}%) scale(${scale})`;
+        });
+
+        dotButtons.forEach((dot, dotIndex) => {
+            dot.classList.toggle('active', dotIndex === currentSlide);
+        });
+    }
+
+    function startAutoRotate() {
+        autoRotate = setInterval(() => showSlide(currentSlide + 1), 4500);
+    }
+
+    function restartAutoRotate() {
+        clearInterval(autoRotate);
+        startAutoRotate();
+    }
+
+    prev.addEventListener('click', () => {
+        showSlide(currentSlide - 1);
+        restartAutoRotate();
+    });
+
+    next.addEventListener('click', () => {
+        showSlide(currentSlide + 1);
+        restartAutoRotate();
+    });
+
+    showSlide(0);
+    startAutoRotate();
+}
+</script>
+
+</body>
+</html>
